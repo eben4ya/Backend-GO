@@ -20,6 +20,8 @@ func ConnectDB() {
         log.Fatal("MONGODB_URI environment variable not set")
     }
 
+    fmt.Println("Connecting to MongoDB")
+
     clientOptions := options.Client().ApplyURI(uri)
     client, err := mongo.Connect(context.TODO(), clientOptions)
     if err != nil {
@@ -47,5 +49,8 @@ func ConnectDB() {
 }
 
 func GetCollection(collectionName string) *mongo.Collection {
+	if DB == nil {
+        log.Fatal("Database connection is not established")
+    }
     return DB.Collection(collectionName)
 }
